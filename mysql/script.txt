@@ -1,0 +1,73 @@
+ sqoop import \
+--connect jdbc:mysql://192.168.88.1:3306/sample \
+--username ss \
+--password 12345678 \
+--table student \
+--fields-terminated-by ',' \
+--delete-target-dir --num-mappers 1 --hive-import --hive-database sample --hive-table student
+
+sqoop export --connect jdbc:mysql://192.168.88.1:3306/schoolplanbv2 --username ss --password 12345678 --table province_plan --export-dir /user/hive/warehouse/to_mysql.db/province_plan/000000_0 --m 1
+
+
+
+sqoop export \
+--connect jdbc:mysql://192.168.88.1:3306/schoolplandbv2 \
+-username ss \
+-password 12345678 \
+-table province_plan \
+--input-fields-terminatedby '\001' \
+-export-dir /user/hive/warehouse/to_mysql.db
+
+sqoop list-tables \
+--connect jdbc:mysql://192.168.88.1:3306/schoolplandbv2 \
+--username 'ss' \
+--password '12345678' 
+
+
+province_plan 转到mysql:
+sqoop export \
+--connect jdbc:mysql://192.168.88.1:3306/schoolplandbv2 \
+--username 'ss' \
+--password '12345678' \
+--table 'province_plan' \
+--hcatalog-database To_mysql \
+--hcatalog-table province_plan \
+--num-mappers 1 \
+--input-null-string '\\N' \
+--input-null-non-string '\\N'
+
+hot_major 转到mysql:
+sqoop export \
+--connect jdbc:mysql://192.168.88.1:3306/schoolplandbv2 \
+--username 'ss' \
+--password '12345678' \
+--table 'hot_major' \
+--hcatalog-database To_mysql \
+--hcatalog-table hot_major \
+--num-mappers 10 \
+--input-null-string '\\N' \
+--input-null-non-string '\\N'
+
+cool_major 转到mysql:
+sqoop export \
+--connect jdbc:mysql://192.168.88.1:3306/schoolplandbv2 \
+--username 'ss' \
+--password '12345678' \
+--table 'cool_major' \
+--hcatalog-database To_mysql \
+--hcatalog-table cool_major \
+--num-mappers 10 \
+--input-null-string '\\N' \
+--input-null-non-string '\\N'
+
+enrollment_plan 转到mysql:
+sqoop export \
+--connect jdbc:mysql://192.168.88.1:3306/schoolplandbv2 \
+--username 'ss' \
+--password '12345678' \
+--table 'enrollment_plan' \
+--hcatalog-database To_mysql \
+--hcatalog-table enrollment_plan \
+--num-mappers 10 \
+--input-null-string '\\N' \
+--input-null-non-string '\\N'
